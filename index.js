@@ -12,7 +12,7 @@ const {
 } = require('./middlewares/errorHandler');
 
 const app = express();
-const PORT = config.PORT || 3000;
+const PORT = config.PORT;
 
 app.use(express.json());
 
