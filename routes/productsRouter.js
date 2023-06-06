@@ -1,17 +1,22 @@
 const { Router } = require('express');
 
+// Services
 const ProductsService = require('../services/productsService');
+// Middlewares
 const validatorHandler = require('../middlewares/validatorHandler');
-
+// Schemas
 const {
   getProductSchema,
   createProductSchema,
   updateProductSchema,
 } = require('../schemas/productSchema');
 
+// Instance of Router
 const router = Router();
+// Instance of Service
 const productsService = new ProductsService();
 
+// *** PRODUCT ROUTER ***
 // Listar todos los productos
 router.get('/', async (req, res, next) => {
   try {
