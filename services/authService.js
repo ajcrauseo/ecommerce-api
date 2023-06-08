@@ -30,7 +30,7 @@ class AuthService {
 
     const newUser = await userService.create(data);
 
-    const response = this.signToken(newUser)
+    const response = this.signToken(newUser);
 
     return response;
   }
@@ -97,16 +97,16 @@ class AuthService {
     return response;
   }
 
-  async changePassword(token, newPassword) {
+  async changePassword(recoveryToken, newPassword) {
     try {
-      const payload = jwt.verify(token, config.JWT_SECRET_RECOVERY);
+      const payload = jwt.verify(recoveryToken, config.JWT_SECRET_RECOVERY);
       const user = await userService.findById(payload.sub);
 
-      if (user.recoveryToken !== token) {
-        throw boom.unauthorized();
+      if (user.recoveryToken !== recoveryToken) {
+        throw boom.unauthorized('invalid token');
       }
 
-      const hash = bcrypt.hash(newPassword, 10);
+      const hash = await bcrypt.hash(newPassword, 10);
 
       await userService.updateOne(user.id, {
         recoveryToken: null,
@@ -115,7 +115,8 @@ class AuthService {
 
       return { message: 'password changed' };
     } catch (error) {
-      throw boom.unauthorized();
+      console.log(error);
+      throw boom.unauthorized('contact with admin', error.message);
     }
   }
 }

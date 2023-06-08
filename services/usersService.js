@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const bcrypt = require('bcrypt');
 
 const { models } = require('../libs/sequelize');
 
@@ -6,7 +7,7 @@ class UsersService {
   constructor() {}
 
   async create(data) {
-    const user = await this.findByEmail(data.email);
+    const user = await models.User.findOne({ where: { email: data.email } });
 
     if (user) {
       throw boom.badRequest('user exist');

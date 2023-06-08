@@ -46,7 +46,7 @@ router.get(
 );
 
 router.patch(
-  '/',
+  '/:id',
   passport.authenticate('jwt', { session: false }),
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),

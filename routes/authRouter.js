@@ -56,13 +56,14 @@ router.post(
 );
 
 router.post(
-  'change-password',
+  '/change-password',
   validatorHandler(changePasswordSchema, 'body'),
+  // TODO: Recibir el token de los query params (?token=eltoken)
   async (req, res, next) => {
     try {
-      const { token, password: newPassword } = req.body;
+      const { recoveryToken, password } = req.body;
 
-      const response = await authService.changePassword(token, newPassword);
+      const response = await authService.changePassword(recoveryToken, password);
 
       res.json(response);
     } catch (error) {
