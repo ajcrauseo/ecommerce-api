@@ -16,6 +16,7 @@ const PORT = config.PORT;
 
 app.use(express.json());
 
+// CORS
 const whitelist = ['http://localhost:8080', 'anotherorigin.example'];
 const corsOptions = {
   origin: (origin, callback) => {
@@ -31,6 +32,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// AUTH MIDDLEWARE
+require('./utils/auth');
 
 // ROUTER
 app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
