@@ -100,7 +100,10 @@ class AuthService {
   async changePassword(recoveryToken, newPassword) {
     try {
       const payload = jwt.verify(recoveryToken, config.JWT_SECRET_RECOVERY);
-      const user = await userService.findById(payload.sub);
+      const user = await userService.findToChangePassword(payload.sub);
+
+      console.log(recoveryToken);
+      console.log(user.recoveryToken);
 
       if (user.recoveryToken !== recoveryToken) {
         throw boom.unauthorized('invalid token');
@@ -115,8 +118,20 @@ class AuthService {
 
       return { message: 'password changed' };
     } catch (error) {
-      console.log(error);
-      throw boom.unauthorized('contact with admin', error.message);
+      // Manejo de errores
+      if (error instanceof jwt.TokenExpiredError) {
+        // Token expirado
+        throw boom.unauthorized('token expirado');
+      } else if (error instanceof jwt.NotBeforeError) {
+        // Token no válido aún (fecha de inicio permitida)
+        throw boom.unauthorized('token no valido aun');
+      } else if (error instanceof jwt.JsonWebTokenError) {
+        // Otro error relacionado con el token JWT
+        throw boom.unauthorized('error con la verificacion del token');
+      } else {
+        // Otro tipo de error
+        throw boom.unauthorized(error.message);
+      }
     }
   }
 }

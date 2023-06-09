@@ -39,6 +39,16 @@ class UsersService {
     return userById;
   }
 
+  async findToChangePassword(id) {
+    const userById = await models.User.findByPk(id);
+
+    if (!userById) {
+      throw boom.notFound('user not found');
+    }
+
+    return userById;
+  }
+
   async findByEmail(email) {
     const userByEmail = await models.User.findOne({ where: { email } });
 
