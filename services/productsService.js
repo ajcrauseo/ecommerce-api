@@ -24,6 +24,11 @@ class ProductsService {
   }
 
   async create(data) {
+    const category = await models.Category.findByPk(data.categoryId);
+
+    if (!category) {
+      throw boom.notFound('category not found');
+    }
     const newProduct = await models.Product.create(data);
 
     return newProduct;
