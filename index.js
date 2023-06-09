@@ -45,4 +45,4 @@ app.use(ormErrorHandler);
 app.use(errorHandler);
 app.use(logErrors);
 
-app.listen(PORT, () => console.log(`App running at port: ${PORT}`));
+app.listen(PORT, () => console.log(`App running at port: ${PORT}. Production: ${config.isProd}`));

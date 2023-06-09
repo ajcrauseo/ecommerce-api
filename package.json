@@ -22,7 +22,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js ",
+    "start": "node index.js",
+    "start:production": "NODE_ENV=production node index.js",
     "dev": "nodemon index.js",
     "migrations:generate": "sequelize-cli migration:generate --name",
     "migrations:run": "sequelize-cli db:migrate",
