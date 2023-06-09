@@ -12,6 +12,7 @@ const {
 const router = Router();
 const authService = new AuthService();
 
+// Login
 router.post(
   '/login',
   passport.authenticate('local', { session: false }),
@@ -24,6 +25,7 @@ router.post(
   },
 );
 
+// Sign Up
 router.post(
   '/signup',
   validatorHandler(createUserSchema, 'body'),
@@ -63,7 +65,10 @@ router.post(
     try {
       const { recoveryToken, password } = req.body;
 
-      const response = await authService.changePassword(recoveryToken, password);
+      const response = await authService.changePassword(
+        recoveryToken,
+        password,
+      );
 
       res.json(response);
     } catch (error) {
