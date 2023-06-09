@@ -40,9 +40,9 @@ require('./utils/auth');
 app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
 routerApi(app);
 
-app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(ormErrorHandler);
 app.use(errorHandler);
+app.use(logErrors);
 
 app.listen(PORT, () => console.log(`App running at port: ${PORT}`));
