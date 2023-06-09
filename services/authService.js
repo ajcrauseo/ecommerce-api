@@ -20,9 +20,9 @@ class AuthService {
       throw boom.unauthorized('password or email incorrect');
     }
 
-    delete user.dataValues.password;
+    const userSignedIn = userService.findById(user.id);
 
-    return user;
+    return userSignedIn;
   }
 
   async signUp(data) {

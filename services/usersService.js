@@ -28,13 +28,13 @@ class UsersService {
   }
 
   async findById(id) {
-    const userById = await models.User.findByPk(id);
+    const userById = await models.User.findByPk(id, {
+      attributes: { exclude: ['password', 'recoveryToken'] },
+    });
 
     if (!userById) {
       throw boom.notFound('user not found');
     }
-
-    delete userById.dataValues.password;
 
     return userById;
   }
@@ -58,9 +58,9 @@ class UsersService {
       throw boom.badRequest('error updating user');
     }
 
-    const userUpdated = await models.User.findByPk(id);
-
-    delete userUpdated.dataValues.password;
+    const userUpdated = await models.User.findByPk(id, {
+      attributes: { exclude: ['password', 'recoveryToken'] },
+    });
 
     return userUpdated;
   }
